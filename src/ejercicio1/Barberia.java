@@ -10,12 +10,36 @@ package ejercicio1;
  * @author masanchezdm
  */
 public class Barberia {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    
+    Cliente [] clientes;
+    
+    public Barberia(int n){
+        this.clientes = new Cliente[n];
+        
+    }
+    
+    public synchronized void sentar(Cliente c){
+        int lugar = this.hay_silla();
+        if(lugar != -1){
+            this.clientes[lugar] = c;
+        }
+        
+    }
+    
+    private int hay_silla(){
+        for(int i = 0; i < this.clientes.length; i++ ){
+            if(this.clientes[i] == null)
+                return i;
+        }
+        return -1;
+    }
+    
+    public boolean empty(){
+        for(int i = 0; i < this.clientes.length; i++){
+            if(this.clientes[i] != null)
+                return false;
+        }
+        return true;
     }
     
 }
