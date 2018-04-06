@@ -127,10 +127,18 @@ public class Barberia {
     }
     
     public static String muestra_sillas(){
-        for(int i = Barberia.primero_e; i < Barberia.ultimo_e; i = (i+ 1 + Barberia.longi))        
+        String sillas = "|";
+        for(int i = Barberia.primero_e; i != Barberia.ultimo_e; i = (i+ 1 + Barberia.longi) % Barberia.longi){
+            sillas += " " + Barberia.especiales[i].id + " |";
+        }        
+        for(int i = Barberia.primero; i != Barberia.ultimo; i = (i+ 1 + Barberia.longi) % Barberia.longi){
+            sillas += " " + Barberia.regulares[i].id + " |";
+        }
+        return sillas;
     }
     
     public static void main(String [] arg){
+        System.out.println(Barberia.sillas);
         Barbero barbero = new Barbero();
         Cliente [] todos = new Cliente[new Random().nextInt(20)+ 7];
         for(int i = 0; i < todos.length; i++){

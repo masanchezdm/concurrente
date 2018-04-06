@@ -5,6 +5,7 @@
  */
 package ejercicio1;
 
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,11 +14,12 @@ import java.util.logging.Logger;
  * @author masanchezdm
  */
 public class Cliente extends Thread {
-    int tipo;
+    int tipo = new Random().nextInt(2)+ 1;
     int id;
     
     
     public synchronized void sentar() throws InterruptedException{
+        System.out.println("entro  " + this.toString());
         if(Barberia.ocupadas != Barberia.sillas){
             if(this.tipo == 1){
                 Barberia.regulares[Barberia.ultimo] = this;
@@ -31,6 +33,9 @@ public class Cliente extends Thread {
         }else{
             wait();
         }            
+    }
+    public String toString(){
+        return "Cliente "+ id + " tipo " + tipo;
     }
     
     @Override

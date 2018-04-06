@@ -97,6 +97,7 @@ public class Barbero extends Thread{
     public void run(){
         while(true){
             try {
+                Barberia.muestra_sillas();
                 this.atender();
             } catch (InterruptedException ex) {
                 Logger.getLogger(Barbero.class.getName()).log(Level.SEVERE, null, ex);
