@@ -51,22 +51,57 @@
  */
 package ejercicio1;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Adriana
  */
 public class Barbero extends Thread{
-    Barberia b;
-    
-    public Barbero(Barberia b){
-        this.b = b;
+
+    public synchronized Cliente atender_especial(){
+        Cliente c = Barberia.especiales[Barberia.primero_e];
+        Barberia.setPrimero();
+        Barberia.ocupadas--;
+        notifyAll();
+        return c;
     }
     
-    public void atender(){
-        while(!b.empy()){
-            
+    public synchronized Cliente atender_regular() throws InterruptedException{
+        Cliente c = Barberia.regulares[Barberia.primero];
+        Barberia.setPrimero();
+        Barberia.ocupadas--;
+        notifyAll();
+        return c;
+    }
+    
+    public void atender() throws InterruptedException{
+        if(!Barberia.empy()){
+            int especiales = 0;
+            if(Barberia.hay_especiales()){
+                while(especiales <= 2){
+                    this.atender_especial();
+                    especiales++;
+                }
+            }else{
+                this.atender_regular();
+            }
+            Thread.sleep(1000);
+        }else{
+            wait();
         }
-            
+    }
+    
+    @Override
+    public void run(){
+        while(true){
+            try {
+                this.atender();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Barbero.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
     
 }

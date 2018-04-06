@@ -76,55 +76,71 @@ import java.util.Random;
  */
 public class Barberia {  
 
-    public int sillas =  new Random().nextInt(15)+ 5;
-    private int ocupadas = 0;
-    public  Cliente[] especiales = new Cliente[sillas];
-    public  Cliente[]  regulares = new Cliente[sillas];
-    public int primero = 0;
-    public int ultimo = 0;    
-    private int longi;
+    public static int sillas =  new Random().nextInt(15)+ 5;
+    public static volatile int ocupadas = 0;
+    public static volatile Cliente[] especiales = new Cliente[sillas];
+    public static volatile Cliente[]  regulares = new Cliente[sillas];
+    public static int primero = 0;
+    public static int ultimo = 0;      
+    public static int primero_e = 0;
+    public static int ultimo_e = 0;
+    public static int longi;
     
-    public int getPrimero() {
-        return primero;
+    public static int getPrimero() {
+        return Barberia.primero;
     }
 
-    public void setPrimero() {
-        this.primero = (primero + 1 + longi) % longi;
+    public static void setPrimero() {
+        Barberia.primero = (Barberia.primero + 1 + Barberia.longi) % Barberia.longi;
     }
 
-    public int getUltimo() {
-        return ultimo;
+    public static int getUltimo() {
+        return Barberia.ultimo;
     }
 
-    public void setUltimo() {
-        this.ultimo = (ultimo + 1 + longi) % longi;
+    public static void setUltimo() {
+        Barberia.ultimo = (Barberia.ultimo + 1 + Barberia.longi) % Barberia.longi;
+    }
+
+    public static int getPrimero_e() {
+        return Barberia.primero_e;
+    }
+
+    public static void setPrimero_e() {
+        Barberia.primero_e = (Barberia.primero_e + 1 + Barberia.longi) % Barberia.longi;
+    }
+
+    public static int getUltimo_e() {
+        return Barberia.ultimo_e;
+    }
+
+    public static void setUltimo_e(int ultimo_e) {
+        Barberia.ultimo_e = (Barberia.ultimo_e + 1 + Barberia.longi) % Barberia.longi;
     }
     
-    public synchronized void sentar(Cliente c){
-        if(ocupadas != sillas){
-            if(c.tipo == 1){
-                regulares[ultimo] = (c);
-                setUltimo();
-            }else{
-                especiales[ultimo] = (c);
-                setUltimo();
-            }
-        }            
-    }
-    public Cliente atender_especial(){
-        Cliente c = especiales[primero];
-        setPrimero();
-        return c;
+    public static boolean empy(){
+        return Barberia.ocupadas == 0;
     }
     
-    public Cliente atender(){
-        Cliente c = regulares[primero];
-        setPrimero();
-        return c;
+    public static boolean hay_especiales(){
+        return Barberia.especiales.length != 0;
     }
     
-    public boolean empy(){
-        return primero == ultimo;
+    public static String muestra_sillas(){
+        for(int i = Barberia.primero_e; i < Barberia.ultimo_e; i = (i+ 1 + Barberia.longi))        
+    }
+    
+    public static void main(String [] arg){
+        Barbero barbero = new Barbero();
+        Cliente [] todos = new Cliente[new Random().nextInt(20)+ 7];
+        for(int i = 0; i < todos.length; i++){
+            todos[i]= new Cliente();   
+            todos[i].id = i;
+        }
+        barbero.start();
+        for(int i = 0; i < todos.length; i++){
+            todos[i].start();
+        }
     }
         
 }
