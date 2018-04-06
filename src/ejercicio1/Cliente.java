@@ -13,4 +13,5 @@ public class Cliente {
     int tipo;
     int id;
     
+    
 }
